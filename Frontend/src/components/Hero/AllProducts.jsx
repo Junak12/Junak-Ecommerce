@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
 import { useNavigate } from "react-router";
+import { CartContext } from "../../contexts/CartContext";
 
 const AllProducts = () => {
 
   const navigate = useNavigate();
   const { data, loading, error } = useContext(DataContext);
+  const { addTocart } = useContext(CartContext);
 
   if (loading) return <p className="text-center mt-10">Loading products...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
@@ -22,7 +24,7 @@ const AllProducts = () => {
           <div
             key={product.id}
             className="border p-4 rounded-lg shadow hover:shadow-lg transition-all cursor-pointer hover:scale-105"
-            onClick={() => navigate('/product/' + product.id)}
+            onClick={() => navigate("/product/" + product.id)}
           >
             <img
               src={product.image}
@@ -36,7 +38,13 @@ const AllProducts = () => {
               ${product.price}
             </p>
             <div className="flex items-center justify-center">
-              <button className=" bg-black text-white py-2 rounded-lg hover:bg-pink-600 transition-all px-6 mt-4">
+              <button
+                className=" bg-black text-white py-2 rounded-lg hover:bg-pink-600 transition-all px-6 mt-4"
+                onClick={(e) => {
+                  e.stopPropagation(); 
+                  addTocart(product);
+                }}
+              >
                 Add to Cart
               </button>
             </div>

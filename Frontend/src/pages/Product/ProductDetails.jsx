@@ -4,10 +4,12 @@ import {
   ProductDetailsProvider,
   ProductDetailsContext,
 } from "../../contexts/ProductDetailsContext";
+import { CartContext } from "../../contexts/CartContext";
 
 
 const ProductDetailsContent = () => {
   const { product, loading, error } = useContext(ProductDetailsContext);
+  const { addTocart } = useContext(CartContext);
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
@@ -29,7 +31,13 @@ const ProductDetailsContent = () => {
         </p>
         <p className="mb-6 text-slate-700">{product.description}</p>
 
-        <button className="bg-black text-white py-2 px-6 rounded hover:bg-pink-600 transition">
+        <button
+          className="bg-black text-white py-2 px-6 rounded hover:bg-pink-600 transition"
+          onClick={(e) => {
+            e.stopPropagation();
+            addTocart(product);
+          }}
+        >
           Add to Cart
         </button>
       </div>
