@@ -5,13 +5,18 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  // Add to cart
+  // Add to cart function
   const addTocart = (product) => {
+    // Ensure product has size, default to "S"
+    if (!product.size) product.size = "S";
+
     setCart((prev) => {
-      const exist = prev.find((item) => item.id === product.id);
+      const exist = prev.find(
+        (item) => item.id === product.id && item.size === product.size,
+      );
       if (exist) {
         return prev.map((item) =>
-          item.id === product.id
+          item.id === product.id && item.size === product.size
             ? { ...item, quantity: item.quantity + 1 }
             : item,
         );
@@ -22,20 +27,25 @@ export const CartProvider = ({ children }) => {
   };
 
   // Remove from cart
-  const removeFromCart = (productId) => {
-    setCart((prev) => prev.filter((item) => item.id !== productId));
+  const removeFromCart = (productId, size) => {
+    setCart((prev) =>
+      prev.filter((item) => !(item.id === productId && item.size === size)),
+    );
   };
 
   // Decrease quantity
-  const decreaseQuantity = (productId) => {
+  const decreaseQuantity = (productId, size) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.id === productId
+        item.id === productId && item.size === size
           ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 }
           : item,
       ),
     );
   };
+
+  // Clear cart
+  const clearCart = () => setCart([]);
 
   // Total items and price
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
@@ -51,6 +61,7 @@ export const CartProvider = ({ children }) => {
         addTocart,
         removeFromCart,
         decreaseQuantity,
+        clearCart,
         totalItems,
         totalPrice,
       }}

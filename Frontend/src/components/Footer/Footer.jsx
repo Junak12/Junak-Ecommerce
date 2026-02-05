@@ -8,8 +8,8 @@ const Footer = () => {
         {/* Brand */}
         <div>
           <h1 className="text-3xl font-bold mb-3">
-            <span className="text-pink-600">J</span>U
-            <span className="text-pink-600">N</span>AK
+            <span className="text-pink-600">H</span>A
+            <span className="text-pink-600">B</span>UB
           </h1>
           <p className="text-sm text-slate-400">
             Your one-stop shop for fashion, electronics, and daily essentials.

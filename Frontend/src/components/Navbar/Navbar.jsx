@@ -26,8 +26,8 @@ const Navbar = () => {
       {/* Logo */}
       <div onClick={() => navigate("/")} className="cursor-pointer">
         <h1 className="text-2xl md:text-5xl font-bold">
-          <span className="text-pink-700">J</span>U
-          <span className="text-pink-700">N</span>AK
+          <span className="text-pink-700">H</span>A
+          <span className="text-pink-700">B</span>UB
         </h1>
       </div>
 
@@ -77,12 +77,14 @@ const Navbar = () => {
         </NavLink>
 
         {/* Cart */}
-        <div className="relative cursor-pointer">
-          <CiShoppingCart className="text-3xl" />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-            {totalItems}
-          </span>
-        </div>
+        <NavLink to="/cart" className="relative">
+          <CiShoppingCart className="text-3xl cursor-pointer" />
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              {totalItems}
+            </span>
+          )}
+        </NavLink>
 
         {/* User */}
         <div>
@@ -105,7 +107,11 @@ const Navbar = () => {
               My Profile
             </h1>
 
-            <h2 className="text-lg font-bold cursor-pointer text-center bg-black/75 text-white px-4 py-2 rounded-2xl mt-2 hover:scale-105 transition-all">
+            <h2 
+            className="text-lg font-bold cursor-pointer text-center bg-black/75 text-white px-4 py-2 
+            rounded-2xl mt-2 hover:scale-105 transition-all"
+            onClick={() => navigate('/my-orders')}
+            >
               Your Orders
             </h2>
 
