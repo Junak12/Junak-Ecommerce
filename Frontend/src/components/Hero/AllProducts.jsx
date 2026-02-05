@@ -21,7 +21,8 @@ const AllProducts = () => {
         {data.slice(0, 9).map((product) => (
           <div
             key={product.id}
-            className="border p-4 rounded-lg shadow hover:shadow-lg transition-all hover:scale-110"
+            className="border p-4 rounded-lg shadow hover:shadow-lg transition-all cursor-pointer hover:scale-105"
+            onClick={() => navigate('/product/' + product.id)}
           >
             <img
               src={product.image}
@@ -34,9 +35,11 @@ const AllProducts = () => {
             <p className="text-blue-600 font-bold text-center">
               ${product.price}
             </p>
-            <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition cursor-pointer">
-              View Details
-            </button>
+            <div className="flex items-center justify-center">
+              <button className=" bg-black text-white py-2 rounded-lg hover:bg-pink-600 transition-all px-6 mt-4">
+                Add to Cart
+              </button>
+            </div>
           </div>
         ))}
       </div>
