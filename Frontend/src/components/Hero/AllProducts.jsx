@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
+import { useNavigate } from "react-router";
 
 const AllProducts = () => {
+
+  const navigate = useNavigate();
   const { data, loading, error } = useContext(DataContext);
 
   if (loading) return <p className="text-center mt-10">Loading products...</p>;
@@ -25,11 +28,25 @@ const AllProducts = () => {
               alt={product.title}
               className="w-full h-48 object-contain mb-3"
             />
-            <h3 className="text-lg font-semibold mb-1 text-center">{product.title}</h3>
-            <p className="text-blue-600 font-bold text-center">${product.price}</p>
-            <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition cursor-pointer">View Details</button>
+            <h3 className="text-lg font-semibold mb-1 text-center">
+              {product.title}
+            </h3>
+            <p className="text-blue-600 font-bold text-center">
+              ${product.price}
+            </p>
+            <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition cursor-pointer">
+              View Details
+            </button>
           </div>
         ))}
+      </div>
+      <div className="text-center mt-8">
+        <button
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-all cursor-pointer hover:scale-110"
+          onClick={() => navigate("/product")}
+        >
+          View More
+        </button>
       </div>
     </div>
   );
