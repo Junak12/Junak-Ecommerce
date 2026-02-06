@@ -3,13 +3,14 @@ import { IoIosSearch } from "react-icons/io";
 import { CiShoppingCart, CiUser } from "react-icons/ci";
 import { NavLink, useNavigate } from "react-router";
 import { CartContext } from "../../contexts/CartContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
-  const [login, setLogin] = useState(true);
   const [clickUser, setClickUser] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
-  const { totalItems } = useContext(CartContext); 
+  const { currentUser, logout } = useAuth();
+  const { totalItems } = useContext(CartContext);
 
   // Scroll effect
   useEffect(() => {
@@ -18,9 +19,18 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout failed:", err.message);
+    }
+  };
+
   return (
     <div
-      className={` flex items-center justify-between px-4 py-3 transition-all duration-300
+      className={`flex items-center justify-between px-4 py-3 transition-all duration-300
         ${scrolled ? "bg-white/90 backdrop-blur-md shadow-lg" : "bg-transparent"}`}
     >
       {/* Logo */}
@@ -31,7 +41,7 @@ const Navbar = () => {
         </h1>
       </div>
 
-      {/* Centered Search Bar (hide on mobile) */}
+      {/* Centered Search Bar */}
       <div className="flex-1 justify-center hidden md:flex">
         <div className="flex items-center gap-2 w-full max-w-md">
           <IoIosSearch className="text-2xl" />
@@ -44,7 +54,7 @@ const Navbar = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex items-center gap-4 md:gap-6 relative">
+      <div className="flex items-center gap-4 md:gap-8 relative">
         {/* Navigation */}
         <NavLink
           to="/"
@@ -86,39 +96,43 @@ const Navbar = () => {
           )}
         </NavLink>
 
-        {/* User */}
-        <div>
-          {login ? (
+        {/* User Section */}
+        {currentUser ? (
+          <>
+            {/* Only show user icon if logged in */}
             <CiUser
               className="text-3xl cursor-pointer"
               onClick={() => setClickUser(!clickUser)}
             />
-          ) : (
-            <h1 className="text-[18px] md:text-[24px] font-semibold cursor-pointer">
-              Sign Up
-            </h1>
-          )}
-        </div>
 
-        {/* User Dropdown */}
-        {clickUser && (
-          <div className="absolute top-full right-0 mt-2 bg-white p-4 rounded-lg shadow-xl border border-slate-300 w-44 z-50">
-            <h1 className="text-lg font-bold cursor-pointer text-center bg-black/75 text-white px-4 py-2 rounded-2xl hover:scale-105 transition-all">
-              My Profile
-            </h1>
-
-            <h2 
-            className="text-lg font-bold cursor-pointer text-center bg-black/75 text-white px-4 py-2 
-            rounded-2xl mt-2 hover:scale-105 transition-all"
-            onClick={() => navigate('/my-orders')}
-            >
-              Your Orders
-            </h2>
-
-            <p className="text-lg font-bold cursor-pointer bg-red-500 text-center text-white rounded-2xl mt-2 py-1 hover:scale-105 transition-all">
-              Logout
-            </p>
-          </div>
+            {/* Dropdown */}
+            {clickUser && (
+              <div className="absolute top-full right-0 mt-2 bg-white p-4 rounded-lg shadow-xl border border-slate-300 w-48 z-50">
+                <h1 className="text-lg font-bold text-center mb-2">
+                  {currentUser.username || currentUser.displayName || "User"}
+                </h1>
+                <h2
+                  className="text-lg font-bold cursor-pointer text-center bg-black/75 text-white px-4 py-2 rounded-2xl hover:scale-105 transition-all"
+                  onClick={() => navigate("/my-orders")}
+                >
+                  Your Orders
+                </h2>
+                <p
+                  className="text-lg font-bold cursor-pointer bg-red-500 text-center text-white rounded-2xl mt-2 py-1 hover:scale-105 transition-all"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </p>
+              </div>
+            )}
+          </>
+        ) : (
+          <button
+            onClick={() => navigate("/login")}
+            className="text-lg font-bold bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition"
+          >
+            Login
+          </button>
         )}
       </div>
     </div>
