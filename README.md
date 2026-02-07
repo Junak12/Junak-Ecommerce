@@ -43,7 +43,7 @@ Check out the live project here: [HABUB E-commerce Live](https://cute-mandazi-81
 - **Tailwind CSS**  
 - **React Icons** for UI  
 - **localStorage** for cart persistence  
-- Optional: Firebase / custom backend for authentication  
+- **Firebase for authentication  
 
 ---
 
@@ -53,3 +53,4 @@ Check out the live project here: [HABUB E-commerce Live](https://cute-mandazi-81
 ```bash
 git clone https://github.com/yourusername/habub-ecommerce.git
 cd habub-ecommerce
+
